@@ -35,13 +35,13 @@ class Kornakapi {
 
 	/**
 	 * add items to labeled candidate sets.
-	 * @param $data array Array of data. It must be multidimensional
-	 * for example: array(
-	 *  array('label1', 'item1'),
-	 *  array('label1', 'item2'),
-	 *  array('label2', 'item3')
+	 * @param array $data tuples with label as 1st and itemid as 2nd element
+	 * e.g.: array(
+	 *  array('label1', 111),
+	 *  array('label2', 111),
+	 *  array('label1', 222)
 	 * )
-	 * @param $batchsize int size of the batch
+	 * @param int $batchsize size of the batch
 	 * @throws Exception
 	 */
 	public function batchAddCandidates(array $data, $batchsize) {
@@ -50,11 +50,11 @@ class Kornakapi {
 
 	/**
 	 * remove items from labeled candidate sets.
-	 * @param array $data Array of data. It must be multidimensional
-	 * for example: array(
-	 *  array('label1', 'item1'),
-	 *  array('label1', 'item2'),
-	 *  array('label2', 'item3')
+	 * @param array $data tuples with label as 1st and itemid as 2nd element
+	 * e.g.: array(
+	 *  array('label1', 111),
+	 *  array('label2', 111),
+	 *  array('label1', 222)
 	 * )
 	 * @param int $batchsize size of the batch
 	 * @throws Exception
@@ -101,11 +101,11 @@ class Kornakapi {
 
 	/**
 	 * add preferences.
-	 * @param array $data Array of data. It must be multidimensional
-	 * for example: array(
-	 *  array('label1', 'item1'),
-	 *  array('label1', 'item2'),
-	 *  array('label2', 'item3')
+	 * @param array $data tuples with userid as 1st and itemid as 2nd element
+	 * e.g.: array(
+	 *  array(111, 50001),
+	 *  array(111, 50002),
+	 *  array(111, 50003)
 	 * )
 	 * @param int $batchsize size of the batch
 	 * @throws Exception
@@ -127,7 +127,7 @@ class Kornakapi {
 	 *                         A empty label is also possible (if it exist)
 	 * @param int $howMany optional; how many found items will returned. If this parameter isn't denoted all found items will returned.
 	 * @throws Exception
-	 * @return array of found items
+	 * @return array with array object that contain itemID and numeric score as value e.g. [{itemID:557,value:5.988698},{itemID:578,value:5.0461025}, ..]
 	 */
 	public function recommend($recommender, $idType, array $id, $label = '', $howMany = 0) {
 
@@ -172,12 +172,8 @@ class Kornakapi {
 	 * @param string $recommender name of the recommender which should be trained
 	 */
 	public function train($recommender) {
-		$result = $this->http->fetch('train', array(
+		$this->http->void('train', array(
 			'recommender' => $recommender
 		));
-
-		if (empty($result)) {
-			throw new Exception('empty result, recommender may not exist');
-		}
 	}
 }

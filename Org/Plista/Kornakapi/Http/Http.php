@@ -22,6 +22,13 @@ class Http {
 	}
 
 	/**
+	 * @return string
+	 */
+	private function getTemporaryFilename() {
+		return tempnam(sys_get_temp_dir(), 'Kornakapi');
+	}
+
+	/**
 	 * @param string $url
 	 * @param array $query
 	 */
@@ -60,13 +67,6 @@ class Http {
 		curl_close($curl);
 
 		return $result;
-	}
-
-	/**
-	 * @return string
-	 */
-	private function getTemporaryFilename() {
-		return tempnam(sys_get_temp_dir(), 'Kornakapi');
 	}
 
 	/**
