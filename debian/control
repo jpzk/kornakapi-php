@@ -1,0 +1,11 @@
+Source: kornakapi-php
+Section: admin
+Priority: optional
+Maintainer: David Edler <de@plista.com> 
+Build-Depends: debhelper (>= 5), dh-make-php (>= 0.2.3)
+Standards-Version: 3.7.2 
+ 
+Package: kornakapi-php
+Architecture: all 
+Depends: 
+Description: access to kornakapi aka mahout http interface

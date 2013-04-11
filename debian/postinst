@@ -1,0 +1,44 @@
+#!/bin/sh
+# postinst script for plista-livecube
+#
+# see: dh_installdeb(1)
+
+set -e
+
+# summary of how this script can be called:
+#        * <postinst> `configure' <most-recently-configured-version>
+#        * <old-postinst> `abort-upgrade' <new version>
+#        * <conflictor's-postinst> `abort-remove' `in-favour' <package>
+#          <new-version>
+#        * <postinst> `abort-remove'
+#        * <deconfigured's-postinst> `abort-deconfigure' `in-favour'
+#          <failed-install-package> <version> `removing'
+#          <conflicting-package> <version>
+# for details, see http://www.debian.org/doc/debian-policy/ or
+# the debian-policy package
+
+# Source debconf library.
+. /usr/share/debconf/confmodule
+
+NAME=kornakapi-php
+AUTOLOADERFILE=/etc/plista/config.php.d/60-autoloader-$NAME
+
+case "$1" in
+    configure)
+	echo Generating $AUTOLOADERFILE ... >&2
+	cat >$AUTOLOADERFILE <<END_OF_AUTOLOADERFILE
+<?
+Plista::set('autoloader/directories', array_merge(Plista::get('autoloader/directories', array()), array('Org\\Plista\\Kornakapi' => '/usr/share/plista/kornakapi-php')));
+END_OF_AUTOLOADERFILE
+    ;;
+
+    abort-upgrade|abort-remove|abort-deconfigure)
+    ;;
+
+    *)
+        echo "postinst called with unknown argument \`$1'" >&2
+        exit 1
+    ;;
+esac
+
+exit 0
