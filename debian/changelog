@@ -1,3 +1,9 @@
+kornakapi-php (1.0.0) stable; urgency=low
+
+  * working release
+
+ -- Torben Brodt <torben.brodt@plista.com>  Mon, 17 Jun 2013 09:54:03 +0200
+
 kornakapi-php (0.1) stable; urgency=low
 
   * initial release

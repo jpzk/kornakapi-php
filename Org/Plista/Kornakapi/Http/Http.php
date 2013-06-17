@@ -37,11 +37,12 @@ class Http {
 
 		$curl = curl_init();
 
-		$url = $this->baseurl . $url . '?'.http_build_query($query);
+		$url = $this->baseurl . $url . '?' . http_build_query($query);
 		curl_setopt($curl, CURLOPT_URL, $url);
 
 		if ($timeout) {
 			curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, $timeout);
+			// curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 		}
 		curl_exec($curl);
 		curl_close($curl);
@@ -54,10 +55,11 @@ class Http {
 	 */
 	public function fetch($url, array $query = array()) {
 		$timeout = $this->timeout->get($url);
-		$url = $this->baseurl . $url . '?'.http_build_query($query);
+		$url = $this->baseurl . $url . '?' . http_build_query($query);
 
 		$curl = curl_init($url);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+
 
 		if ($timeout) {
 			curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, $timeout);
@@ -65,6 +67,7 @@ class Http {
 
 		$result = curl_exec($curl);
 		curl_close($curl);
+		error_log("url: " . $url . " /\ fetch:" . strlen($result) . " : " . $url);
 
 		return $result;
 	}
@@ -86,7 +89,7 @@ class Http {
 		$query = array(
 			'batchSize' => intval($batchsize)
 		);
-		$url = $this->baseurl . $url . '?'.http_build_query($query);
+		$url = $this->baseurl . $url . '?' . http_build_query($query);
 
 		$content = '';
 		foreach ($data as $val) {
