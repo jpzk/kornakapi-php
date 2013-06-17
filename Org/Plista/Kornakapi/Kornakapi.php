@@ -28,7 +28,7 @@ class Kornakapi {
 	 */
 	public function addCandidate($label, $itemID) {
 		$this->http->void('addCandidate', array(
-			'label' => $label,
+			'label'  => $label,
 			'itemID' => $itemID
 		));
 	}
@@ -45,7 +45,7 @@ class Kornakapi {
 	 * @throws Exception
 	 */
 	public function batchAddCandidates(array $data, $batchsize) {
-		$this->http->batch('batchAddCandidates', $data , $batchsize);
+		$this->http->batch('batchAddCandidates', $data, $batchsize);
 	}
 
 	/**
@@ -60,7 +60,7 @@ class Kornakapi {
 	 * @throws Exception
 	 */
 	public function batchDeleteCandidates(array $data, $batchsize) {
-		$this->http->batch('batchDeleteCandidates', $data , $batchsize);
+		$this->http->batch('batchDeleteCandidates', $data, $batchsize);
 	}
 
 	/**
@@ -70,7 +70,7 @@ class Kornakapi {
 	 */
 	public function deleteCandidate($label, $itemID) {
 		$this->http->void('deleteCandidate', array(
-			'label' => $label,
+			'label'  => $label,
 			'itemID' => $itemID
 		));
 	}
@@ -95,7 +95,7 @@ class Kornakapi {
 		$this->http->void('setPreference', array(
 			'userID' => $userID,
 			'itemID' => $itemID,
-			'value' => $value
+			'value'  => $value
 		));
 	}
 
@@ -111,7 +111,7 @@ class Kornakapi {
 	 * @throws Exception
 	 */
 	public function batchSetPreferences(array $data, $batchsize) {
-		$this->http->batch('batchSetPreferences', $data , $batchsize);
+		$this->http->batch('batchSetPreferences', $data, $batchsize);
 	}
 
 	/**
@@ -145,7 +145,7 @@ class Kornakapi {
 		} else if ($idType == 'itemIDs') {
 			$params['itemIDs'] = implode(',', $id);
 		} else {
-			throw new Exception('wrong idType: '.$idType.' value should either be userID oder itemIDs');
+			throw new Exception('wrong idType: ' . $idType . ' value should either be userID oder itemIDs');
 		}
 
 		// limit results
@@ -160,10 +160,16 @@ class Kornakapi {
 
 		$result = $this->http->fetch('recommend', $params);
 
+		error_log("result: " . $result);
 		if ($result) {
+
+			//PHP json_decode workaround
+			$result = str_replace(array("itemID", "value"), array('"itemID"', '"value"'), $result);
+
+
 			return json_decode($result, true);
 		} else {
-			throw new Exception('no results given, recommender '.$recommender.' may be unknown');
+			throw new Exception('no results given, recommender ' . $recommender . ' may be unknown');
 		}
 	}
 
