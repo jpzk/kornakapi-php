@@ -1,3 +1,9 @@
+kornakapi-php (1.0.0-1) stable; urgency=low
+
+  * working release
+
+ -- Simon Hoenscheid <sh@plista.com>  Fri, 25 Oct 2013 11:18:03 +0200
+
 kornakapi-php (1.0.0) stable; urgency=low
 
   * working release
