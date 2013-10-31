@@ -160,7 +160,6 @@ class Kornakapi {
 
 		$result = $this->http->fetch('recommend', $params);
 
-		error_log("result: " . $result);
 		if ($result) {
 
 			//PHP json_decode workaround
