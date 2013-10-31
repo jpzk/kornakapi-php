@@ -1,3 +1,9 @@
+kornakapi-php (1.0.1) stable; urgency=low
+
+  * remove error log
+
+ -- Torben Brodt <torben.brodt@plista.com>  Thu, 31 Oct 2013 13:37:03 +0200
+
 kornakapi-php (1.0.0-1) stable; urgency=low
 
   * working release
