@@ -67,7 +67,6 @@ class Http {
 
 		$result = curl_exec($curl);
 		curl_close($curl);
-		error_log("url: " . $url . " /\ fetch:" . strlen($result) . " : " . $url);
 
 		return $result;
 	}
