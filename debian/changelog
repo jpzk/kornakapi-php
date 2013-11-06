@@ -1,3 +1,9 @@
+kornakapi-php (1.0.3) stable; urgency=low
+
+  * backport built for maverick + lucid
+
+ -- Torben Brodt <torben.brodt@plista.com>  Thu, 31 Oct 2013 13:58:03 +0200
+
 kornakapi-php (1.0.2) stable; urgency=low
 
   * remove another error log
