@@ -93,7 +93,6 @@ class Kornakapi {
 	 */
     public function setPreference($userID, $itemID, $value) {
         if($userID > 2147483647 || $userID<0){
-            error_log("userId: " . $userID);
             $userID=0;
         }
         $this->http->void('setPreference', array(
