@@ -41,7 +41,7 @@ class Http {
 		curl_setopt($curl, CURLOPT_URL, $url);
 
 		if ($timeout) {
-			curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, $timeout);
+			curl_setopt($curl, CURLOPT_CONNECTTIMEOUT_MS, $timeout);
 			// curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 		}
 		curl_exec($curl);
@@ -62,7 +62,7 @@ class Http {
 
 
 		if ($timeout) {
-			curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, $timeout);
+			curl_setopt($curl, CURLOPT_CONNECTTIMEOUT_MS, $timeout);
 		}
 
 		$result = curl_exec($curl);
@@ -107,7 +107,7 @@ class Http {
 		curl_setopt($curl, CURLOPT_POSTFIELDS, $post);
 
 		if ($timeout) {
-			curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, $timeout);
+			curl_setopt($curl, CURLOPT_CONNECTTIMEOUT_MS, $timeout);
 		}
 		curl_exec($curl);
 
