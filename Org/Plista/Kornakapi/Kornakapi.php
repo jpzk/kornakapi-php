@@ -91,14 +91,15 @@ class Kornakapi {
 	 * @param int $itemID ID of the item
 	 * @param int $value value of the preference
 	 */
-    public function setPreference($userID, $itemID, $value) {
+    public function setPreference($userID, $itemID, $value, $label) {
         if($userID > 2147483647 || $userID<0){
             $userID=0;
         }
         $this->http->void('setPreference', array(
             'userID' => $userID,
             'itemID' => $itemID,
-            'value'  => $value
+            'value'  => $value,
+	    'label'  => $label
         ));
     }
 
@@ -179,9 +180,10 @@ class Kornakapi {
 	 * manually trigger the training for a recommender
 	 * @param string $recommender name of the recommender which should be trained
 	 */
-	public function train($recommender) {
+	public function train($recommender, $label) {
 		$this->http->void('train', array(
-			'recommender' => $recommender
+			'recommender' => $recommender,
+			'label' => $label
 		));
 	}
 }
