@@ -148,8 +148,13 @@ class Kornakapi {
 
 		} else if ($idType == 'itemIDs') {
 			$params['itemIDs'] = implode(',', $id);
+
+		} else if ($idType == 'userIDs') {
+			$params['userID'] = $id[0];
+			unset($id[0]);
+			$params['itemIDs'] = implode(',', $id);
 		} else {
-			throw new Exception('wrong idType: ' . $idType . ' value should either be userID oder itemIDs');
+			throw new Exception('wrong idType: ' . $idType . ' value should either be userID oder itemIDs oder userIDs');
 		}
 
 		// limit results
