@@ -1,3 +1,9 @@
+kornakapi-php (1.1.0) stable; urgency=low
+
+  * userids support
+
+ -- Torben Brodt <tb@plista.com>  Fri, 04 Jul 2014 13:57:50 +0100
+
 kornakapi-php (1.0.5) stable; urgency=low
 
   * pass label to item push
