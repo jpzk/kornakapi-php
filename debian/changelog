@@ -1,3 +1,9 @@
+kornakapi-php (1.2.0) stable; urgency=low
+
+  * fix compatiblity with latest tomcat version
+
+ -- Torben Brodt <tb@plista.com>  Thu, 17 Jul 2014 14:49:50 +0100
+
 kornakapi-php (1.1.0) stable; urgency=low
 
   * userids support
