@@ -172,7 +172,7 @@ class Kornakapi {
 		if ($result) {
 
 			//PHP json_decode workaround
-			$result = str_replace(array("itemID", "value"), array('"itemID"', '"value"'), $result);
+			$result = str_replace(array("{itemID", "value:"), array('{"itemID"', '"value":'), $result);
 
 
 			return json_decode($result, true);
