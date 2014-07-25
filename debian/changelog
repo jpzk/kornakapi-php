@@ -1,6 +1,12 @@
+kornakapi-php (1.2.2) stable; urgency=low
+
+  * version up
+
+ -- Torben Brodt <tb@plista.com>  Wed, 23 Jul 2014 14:49:50 +0100
+
 kornakapi-php (1.2.1) stable; urgency=low
 
-  * fix compatiblity with latest tomcat version
+  * version up
 
  -- Torben Brodt <tb@plista.com>  Wed, 23 Jul 2014 14:49:50 +0100
 
