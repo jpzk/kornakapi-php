@@ -1,5 +1,6 @@
 <?php
 namespace Org\Plista\Kornakapi;
+use Org\Plista\Kornakapi\Http\Http;
 
 /**
  * access to kornakapi aka mahout http interface
@@ -19,6 +20,23 @@ class Kornakapi {
 	 */
 	public function __construct($url, $timeout_default = 1.0, $timeout_config = array()) {
 		$this->http = new Http\Http($url, $timeout_default, $timeout_config);
+	}
+
+
+	/**
+	 * add full text for item
+	 *
+	 * @param $label
+	 * @param $itemID
+	 * @param $text
+	 */
+	public function addArticle($label, $itemID, $text) {
+		$data = array(
+			'text' => $text,
+			'label' => $label,
+			'itemId' => $itemID
+		);
+		$this->http->post('addArticle', $data);
 	}
 
 	/**

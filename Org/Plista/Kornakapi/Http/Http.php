@@ -48,6 +48,20 @@ class Http {
 		curl_close($curl);
 	}
 
+	public function post($url, array $data) {
+		$timeout = $this->timeout->get($url);
+		$url = $this->baseurl . $url;
+
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, $url);
+		curl_setopt($ch, CURLOPT_POST, count($data));
+		curl_setopt($ch,CURLOPT_POSTFIELDS, http_build_query($data));
+		if(!$result = curl_exec($ch)) {
+			\Logger::getLogger('Kornakapi')->error('Error post Kornakapi');
+		}
+		curl_close($ch);
+	}
+
 	/**
 	 * @param string $url
 	 * @param array $query
