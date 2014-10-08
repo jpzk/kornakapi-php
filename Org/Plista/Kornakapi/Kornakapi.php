@@ -25,7 +25,7 @@ class Kornakapi {
 
 
 	/**
-	 * add full text for item
+	 * add article to kornakapi LDA
 	 *
 	 * @param $label
 	 * @param $itemID
@@ -42,6 +42,42 @@ class Kornakapi {
 		} catch(Exception $e) {
 			\Logger::getLogger('Kornakapi')->error($e->getMessage());
 			throw new \Org\Plista\Kornakapi\Exception('Cannot add article');
+		}
+	}
+
+	/**
+	 * delete article from kornakapi LDA
+	 *
+	 * @param $itemID
+	 * @throws Exception
+	 */
+	public function deleteArticle($label, $itemID) {
+		$data = array(
+			'label' => $label,
+			'itemID' => $itemID
+		);
+		try {
+			$this->http->get('deleteArticle', $data);
+		} catch(Exception $e) {
+			\Logger::getLogger('Kornakapi')->error($e->getMessage());
+			throw new \Org\Plista\Kornakapi\Exception('Cannot delete article');
+		}
+	}
+
+	/**
+	 * @param $label
+	 * @throws Exception
+	 */
+	public function train($recommender, $label) {
+		$data = array(
+			'recommender' => $recommender,
+			'label' => $label,
+		);
+		try {
+			$this->http->get('train', $data);
+		} catch(Exception $e) {
+			\Logger::getLogger('Kornakapi')->error($e->getMessage());
+			throw new \Org\Plista\Kornakapi\Exception('Cannot train');
 		}
 	}
 
@@ -203,16 +239,5 @@ class Kornakapi {
 		} else {
 			throw new Exception('no results given, recommender ' . $recommender . ' may be unknown');
 		}
-	}
-
-	/**
-	 * manually trigger the training for a recommender
-	 * @param string $recommender name of the recommender which should be trained
-	 */
-	public function train($recommender, $label) {
-		$this->http->void('train', array(
-			'recommender' => $recommender,
-			'label' => $label
-		));
 	}
 }

@@ -31,6 +31,8 @@ class Http {
 	}
 
 	/**
+	 *
+	 * @deprecated, useful anymore?
 	 * @param string $url
 	 * @param array $query
 	 */
@@ -40,6 +42,8 @@ class Http {
 		$curl = curl_init();
 
 		$url = $this->baseurl . $url . '?' . http_build_query($query);
+		\Logger::getLogger('Kornakapi')->info($url);
+
 		curl_setopt($curl, CURLOPT_URL, $url);
 
 		if ($timeout) {
@@ -50,6 +54,36 @@ class Http {
 		curl_close($curl);
 	}
 
+	/**
+	 * Sending GET request to Kornakapi
+	 *
+	 * @param $url
+	 * @param array $data
+	 * @throws Exception
+	 */
+	public function get($url, array $data) {
+		$timeout = $this->timeout->get($url);
+		$url = $this->baseurl . $url . '?' . http_build_query($data);
+
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, $url);
+		if(!$result = curl_exec($ch)) {
+			throw new Exception(curl_error($ch));
+		}
+		$code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+		if($code != 200) {
+			throw new Exception('Not successful: ' . $code);
+		}
+		curl_close($ch);
+	}
+
+	/**
+	 * Sending a POST request to Kornakapi
+	 *
+	 * @param $url
+	 * @param array $data
+	 * @throws Exception
+	 */
 	public function post($url, array $data) {
 		$timeout = $this->timeout->get($url);
 		$url = $this->baseurl . $url;
