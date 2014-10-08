@@ -1,6 +1,7 @@
 <?php
 namespace Org\Plista\Kornakapi;
 use Org\Plista\Kornakapi\Http\Http;
+use Org\Plista\Kornakapi\Exception;
 
 /**
  * access to kornakapi aka mahout http interface
@@ -19,7 +20,7 @@ class Kornakapi {
 	 * @param array $timeout_config
 	 */
 	public function __construct($url, $timeout_default = 1.0, $timeout_config = array()) {
-		$this->http = new Http\Http($url, $timeout_default, $timeout_config);
+		$this->http = new Http($url, $timeout_default, $timeout_config);
 	}
 
 
@@ -34,9 +35,14 @@ class Kornakapi {
 		$data = array(
 			'text' => $text,
 			'label' => $label,
-			'itemId' => $itemID
+			'itemID' => $itemID
 		);
-		$this->http->post('addArticle', $data);
+		try {
+			$this->http->post('addArticle', $data);
+		} catch(Exception $e) {
+			\Logger::getLogger('Kornakapi')->error($e->getMessage());
+			throw new \Org\Plista\Kornakapi\Exception('Cannot add article');
+		}
 	}
 
 	/**

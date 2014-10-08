@@ -1,6 +1,8 @@
 <?php
 namespace Org\Plista\Kornakapi\Http;
 
+use Org\Plista\Kornakapi\Exception;
+
 /**
  * kornakapi http interface using curl
  */
@@ -57,7 +59,11 @@ class Http {
 		curl_setopt($ch, CURLOPT_POST, count($data));
 		curl_setopt($ch,CURLOPT_POSTFIELDS, http_build_query($data));
 		if(!$result = curl_exec($ch)) {
-			\Logger::getLogger('Kornakapi')->error('Error post Kornakapi');
+			throw new Exception(curl_error($ch));
+		}
+		$code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+		if($code != 200) {
+			throw new Exception('Not successful: ' . $code);
 		}
 		curl_close($ch);
 	}
@@ -73,7 +79,6 @@ class Http {
 
 		$curl = curl_init($url);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-
 
 		if ($timeout) {
 			curl_setopt($curl, CURLOPT_CONNECTTIMEOUT_MS, $timeout);
