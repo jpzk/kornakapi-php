@@ -42,7 +42,6 @@ class Http {
 		$curl = curl_init();
 
 		$url = $this->baseurl . $url . '?' . http_build_query($query);
-		\Logger::getLogger('Kornakapi')->info($url);
 
 		curl_setopt($curl, CURLOPT_URL, $url);
 
@@ -75,6 +74,8 @@ class Http {
 			throw new Exception('Not successful: ' . $code);
 		}
 		curl_close($ch);
+
+		return $result;
 	}
 
 	/**
@@ -87,6 +88,7 @@ class Http {
 	public function post($url, array $data) {
 		$timeout = $this->timeout->get($url);
 		$url = $this->baseurl . $url;
+
 
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $url);
@@ -110,6 +112,8 @@ class Http {
 	public function fetch($url, array $query = array()) {
 		$timeout = $this->timeout->get($url);
 		$url = $this->baseurl . $url . '?' . http_build_query($query);
+
+		var_dump($url);
 
 		$curl = curl_init($url);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
