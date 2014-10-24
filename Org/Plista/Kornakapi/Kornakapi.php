@@ -227,11 +227,11 @@ class Kornakapi {
 			$params['label'] = strval($label);
 		}
 
-		$result = $this->http->get('recommend', $params);
+		$result = $this->http->fetch('recommend', $params);
 
 		//PHP json_decode workaround
 		$result = str_replace(array("{itemID", "value:"), array('{"itemID"', '"value":'), $result);
 
-		return $result;
+		return json_decode($result);
 	}
 }
