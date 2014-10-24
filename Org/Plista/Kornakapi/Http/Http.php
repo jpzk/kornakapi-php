@@ -21,6 +21,7 @@ class Http {
 	public function __construct($baseurl, $timeout_default, $timeout_config) {
 		$this->baseurl = $baseurl;
 		$this->timeout = new Timeout($timeout_default, $timeout_config);
+		$this->logger = \Logger::getLogger('Kornakapi');
 	}
 
 	/**
@@ -63,6 +64,7 @@ class Http {
 	public function get($url, array $data) {
 		$timeout = $this->timeout->get($url);
 		$url = $this->baseurl . $url . '?' . http_build_query($data);
+		this->logger->warn("using kornakapi get with url: " . $url);
 
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $url);
@@ -88,7 +90,7 @@ class Http {
 	public function post($url, array $data) {
 		$timeout = $this->timeout->get($url);
 		$url = $this->baseurl . $url;
-
+		$this->logger->warn("using kornakapi post with url: " . $url);
 
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $url);
@@ -112,6 +114,7 @@ class Http {
 	public function fetch($url, array $query = array()) {
 		$timeout = $this->timeout->get($url);
 		$url = $this->baseurl . $url . '?' . http_build_query($query);
+		$this->logger->warn("using kornakapi fetch with url: " . $url);
 
 		var_dump($url);
 
