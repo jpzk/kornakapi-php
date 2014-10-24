@@ -229,15 +229,9 @@ class Kornakapi {
 
 		$result = $this->http->fetch('recommend', $params);
 
-		if ($result) {
+		//PHP json_decode workaround
+		$result = str_replace(array("{itemID", "value:"), array('{"itemID"', '"value":'), $result);
 
-			//PHP json_decode workaround
-			$result = str_replace(array("{itemID", "value:"), array('{"itemID"', '"value":'), $result);
-
-
-			return json_decode($result, true);
-		} else {
-			throw new Exception('no results given, recommender ' . $recommender . ' may be unknown');
-		}
+		return json_decode($result);
 	}
 }
