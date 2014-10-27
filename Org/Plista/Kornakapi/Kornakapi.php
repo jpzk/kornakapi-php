@@ -20,6 +20,9 @@ class Kornakapi {
 	 * @param array $timeout_config
 	 */
 	public function __construct($url, $timeout_default = 1.0, $timeout_config = array()) {
+		$this->logger = \Logger::getLogger(get_class($this));
+		$this->logger->info('__construct called()');
+		$this->logger->info('init. http object with base url' . $url);
 		$this->http = new Http($url, $timeout_default, $timeout_config);
 	}
 
@@ -31,15 +34,17 @@ class Kornakapi {
 	 * @param $text
 	 */
 	public function addArticle($label, $itemID, $text) {
+		$this->logger->info('addArticle() called');
 		$data = array(
 			'text' => $text,
 			'label' => $label,
 			'itemID' => $itemID
 		);
 		try {
+			$this->logger->info('calling $http->post(...)');
 			$this->http->post('addArticle', $data);
 		} catch(Exception $e) {
-			\Logger::getLogger('Kornakapi')->error($e->getMessage());
+			$this->logger->error('error occured: ' . $e);
 			throw new \Org\Plista\Kornakapi\Exception('Cannot add article');
 		}
 	}
@@ -51,6 +56,7 @@ class Kornakapi {
 	 * @throws Exception
 	 */
 	public function deleteArticle($label, $itemID) {
+		$this->logger->info('deleteArticle(...) called');
 		$data = array(
 			'label' => $label,
 			'itemID' => $itemID
@@ -68,6 +74,7 @@ class Kornakapi {
 	 * @throws Exception
 	 */
 	public function train($recommender, $label) {
+		$this->logger->info('train(...) called');
 		$data = array(
 			'recommender' => $recommender,
 			'label' => $label,
@@ -86,6 +93,7 @@ class Kornakapi {
 	 * @param int $itemID itemID
 	 */
 	public function addCandidate($label, $itemID) {
+		$this->logger->info('addCandidate(...) called');
 		$this->http->void('addCandidate', array(
 			'label'  => $label,
 			'itemID' => $itemID
@@ -104,6 +112,7 @@ class Kornakapi {
 	 * @throws Exception
 	 */
 	public function batchAddCandidates(array $data, $batchsize) {
+		$this->logger->info('batchAddCandidates(...) called');
 		$this->http->batch('batchAddCandidates', $data, $batchsize);
 	}
 
@@ -119,6 +128,7 @@ class Kornakapi {
 	 * @throws Exception
 	 */
 	public function batchDeleteCandidates(array $data, $batchsize) {
+		$this->logger->info('batchDeleteCandidates(...) called');
 		$this->http->batch('batchDeleteCandidates', $data, $batchsize);
 	}
 
@@ -128,6 +138,7 @@ class Kornakapi {
 	 * @param int $itemID itemID which we want to delete from the candidate set
 	 */
 	public function deleteCandidate($label, $itemID) {
+		$this->logger->info('deleteCandidate(...) called');
 		$this->http->void('deleteCandidate', array(
 			'label'  => $label,
 			'itemID' => $itemID
@@ -139,6 +150,7 @@ class Kornakapi {
 	 * @param string $label name of the label which will be deleted
 	 */
 	public function deleteCandidateFull($label) {
+		$this->logger->info('deleteCandidateFull(...) called');
 		$this->http->void('deleteCandidateFull', array(
 			'label' => $label
 		));
@@ -151,6 +163,7 @@ class Kornakapi {
 	 * @param int $value value of the preference
 	 */
 	public function setPreference($userID, $itemID, $value, $label) {
+		$this->logger->info('setPreference(...) called');
 		if($userID > 2147483647 || $userID<0){
             		$userID=0;
         	}
@@ -174,6 +187,7 @@ class Kornakapi {
 	 * @throws Exception
 	 */
 	public function batchSetPreferences(array $data, $batchsize) {
+		$this->logger->info('batchSetPreferences(...) called');
 		$this->http->batch('batchSetPreferences', $data, $batchsize);
 	}
 
@@ -193,6 +207,8 @@ class Kornakapi {
 	 * @return array with array object that contain itemID and numeric score as value e.g. [{itemID:557,value:5.988698},{itemID:578,value:5.0461025}, ..]
 	 */
 	public function recommend($recommender, $idType, array $id, $label = '', $howMany = 0) {
+		$debuginfo = print_r(array($recommender, $idType, $id, $label), true);
+		$this->logger->info('recommend(...) called: ', $debuginfo);
 
 		if (empty($id)) {
 			throw new Exception('id is empty');
@@ -226,6 +242,7 @@ class Kornakapi {
 			$params['label'] = strval($label);
 		}
 
+		$this->logger->info('calling $http->fetch() with '. print_r($params, true));
 		$result = $this->http->fetch('recommend', $params);
 
 		if($result) {
@@ -235,6 +252,8 @@ class Kornakapi {
 		} else {
 			throw new Exception('no results given, recommender ' . $recommender . ' may be unknown');
 		}
+
+		$this->logger->info('returned results: ' . print_r($result, true));
 		return json_decode($result);
 	}
 }

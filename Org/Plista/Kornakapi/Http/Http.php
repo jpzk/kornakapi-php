@@ -32,14 +32,13 @@ class Http {
 	}
 
 	/**
-	 *
 	 * @deprecated, useful anymore?
 	 * @param string $url
 	 * @param array $query
 	 */
 	public function void($url, array $query = array()) {
 		$timeout = $this->timeout->get($url);
-		$this->logger->warn("using kornakapi get with url: " . $url);
+		$this->logger->info("void(...) with url: " . $url);
 
 		$curl = curl_init();
 
@@ -56,7 +55,7 @@ class Http {
 	}
 
 	/**
-	 * Sending GET request to Kornakapi
+	 * Sending GET request to Kornakapi without response
 	 *
 	 * @param $url
 	 * @param array $data
@@ -65,7 +64,8 @@ class Http {
 	public function get($url, array $data) {
 		$timeout = $this->timeout->get($url);
 		$url = $this->baseurl . $url . '?' . http_build_query($data);
-		$this->logger->warn("using kornakapi get with url: " . $url);
+		$this->logger->info("get(...) with url: " . $url . 'and params' .
+			print_r($data, true));
 
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $url);
@@ -91,7 +91,8 @@ class Http {
 	public function post($url, array $data) {
 		$timeout = $this->timeout->get($url);
 		$url = $this->baseurl . $url;
-		$this->logger->warn("using kornakapi post with url: " . $url);
+		$this->logger->info("post(...) with url: " . $url . 'and params' .
+			print_r($data, true));
 
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $url);
@@ -108,6 +109,8 @@ class Http {
 	}
 
 	/**
+	 * Sending GET request to Kornakapi with response
+	 *
 	 * @param string $url
 	 * @param array $query
 	 * @return string
@@ -115,9 +118,7 @@ class Http {
 	public function fetch($url, array $query = array()) {
 		$timeout = $this->timeout->get($url);
 		$url = $this->baseurl . $url . '?' . http_build_query($query);
-		$this->logger->warn("using kornakapi fetch with url: " . $url);
-
-		var_dump($url);
+		$this->logger->info("fetch(...) with url: " . $url);
 
 		$curl = curl_init($url);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
@@ -128,6 +129,8 @@ class Http {
 
 		$result = curl_exec($curl);
 		curl_close($curl);
+
+		$this->logger->info('fetch response: '. print_r($result, true));
 
 		return $result;
 	}
@@ -141,7 +144,7 @@ class Http {
 	 */
 	public function batch($url, array $data, $batchsize) {
 		$timeout = $this->timeout->get($url);
-		$this->logger->warn("using kornakapi fetch with url: " . $url);
+		$this->logger->info("batch(...) with url: " . $url);
 
 		if (empty($batchsize)) {
 			throw new Exception('empty batchsize given');
