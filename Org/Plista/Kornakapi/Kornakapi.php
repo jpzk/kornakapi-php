@@ -23,7 +23,6 @@ class Kornakapi {
 		$this->http = new Http($url, $timeout_default, $timeout_config);
 	}
 
-
 	/**
 	 * add article to kornakapi LDA
 	 *
@@ -151,17 +150,17 @@ class Kornakapi {
 	 * @param int $itemID ID of the item
 	 * @param int $value value of the preference
 	 */
-    public function setPreference($userID, $itemID, $value, $label) {
-        if($userID > 2147483647 || $userID<0){
-            $userID=0;
-        }
-        $this->http->void('setPreference', array(
-            'userID' => $userID,
-            'itemID' => $itemID,
-            'value'  => $value,
-	    'label'  => $label
-        ));
-    }
+	public function setPreference($userID, $itemID, $value, $label) {
+		if($userID > 2147483647 || $userID<0){
+            		$userID=0;
+        	}
+        	$this->http->void('setPreference', array(
+            	'userID' => $userID,
+           	'itemID' => $itemID,
+            	'value'  => $value,
+	    	'label'  => $label
+        	));
+    	}
 
 	/**
 	 * add preferences.
