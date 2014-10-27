@@ -39,6 +39,7 @@ class Http {
 	 */
 	public function void($url, array $query = array()) {
 		$timeout = $this->timeout->get($url);
+		$this->logger->warn("using kornakapi get with url: " . $url);
 
 		$curl = curl_init();
 
@@ -64,7 +65,7 @@ class Http {
 	public function get($url, array $data) {
 		$timeout = $this->timeout->get($url);
 		$url = $this->baseurl . $url . '?' . http_build_query($data);
-		this->logger->warn("using kornakapi get with url: " . $url);
+		$this->logger->warn("using kornakapi get with url: " . $url);
 
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $url);
@@ -140,6 +141,7 @@ class Http {
 	 */
 	public function batch($url, array $data, $batchsize) {
 		$timeout = $this->timeout->get($url);
+		$this->logger->warn("using kornakapi fetch with url: " . $url);
 
 		if (empty($batchsize)) {
 			throw new Exception('empty batchsize given');
