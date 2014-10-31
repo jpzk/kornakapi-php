@@ -21,7 +21,6 @@ class Http {
 	public function __construct($baseurl, $timeout_default, $timeout_config) {
 		$this->baseurl = $baseurl;
 		$this->timeout = new Timeout($timeout_default, $timeout_config);
-		$this->logger = \Logger::getLogger('Kornakapi');
 	}
 
 	/**
@@ -38,7 +37,6 @@ class Http {
 	 */
 	public function void($url, array $query = array()) {
 		$timeout = $this->timeout->get($url);
-		$this->logger->info("void(...) with url: " . $url);
 
 		$curl = curl_init();
 
@@ -64,8 +62,6 @@ class Http {
 	public function get($url, array $data) {
 		$timeout = $this->timeout->get($url);
 		$url = $this->baseurl . $url . '?' . http_build_query($data);
-		$this->logger->info("get(...) with url: " . $url . 'and params' .
-			print_r($data, true));
 
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $url);
@@ -91,8 +87,6 @@ class Http {
 	public function post($url, array $data) {
 		$timeout = $this->timeout->get($url);
 		$url = $this->baseurl . $url;
-		$this->logger->info("post(...) with url: " . $url . 'and params' .
-			print_r($data, true));
 
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $url);
@@ -118,7 +112,6 @@ class Http {
 	public function fetch($url, array $query = array()) {
 		$timeout = $this->timeout->get($url);
 		$url = $this->baseurl . $url . '?' . http_build_query($query);
-		$this->logger->info("fetch(...) with url: " . $url);
 
 		$curl = curl_init($url);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
@@ -129,8 +122,6 @@ class Http {
 
 		$result = curl_exec($curl);
 		curl_close($curl);
-
-		$this->logger->info('fetch response: '. print_r($result, true));
 
 		return $result;
 	}
@@ -144,7 +135,6 @@ class Http {
 	 */
 	public function batch($url, array $data, $batchsize) {
 		$timeout = $this->timeout->get($url);
-		$this->logger->info("batch(...) with url: " . $url);
 
 		if (empty($batchsize)) {
 			throw new Exception('empty batchsize given');
