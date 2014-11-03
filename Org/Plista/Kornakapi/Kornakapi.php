@@ -30,11 +30,13 @@ class Kornakapi {
 	 * @param $itemID
 	 * @param $text
 	 */
-	public function addArticle($label, $itemID, $text) {
+	public function addArticle($label, $itemID, $text, $sceal1, $sceal2) {
 		$data = array(
 			'text' => $text,
 			'label' => $label,
-			'itemID' => $itemID
+			'itemID' => $itemID,
+			'sce_al1' => $sceal1,
+			'sce_al2' => $sceal2
 		);
 		try {
 			$this->http->post('addArticle', $data);
